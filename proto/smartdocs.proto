@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package smartdocs;
+
+service RagService {
+  rpc UploadDocument (UploadDocumentRequest) returns (UploadDocumentResponse);
+  rpc Search (SearchRequest) returns (SearchResponse);
+  rpc Ask (AskRequest) returns (AskResponse);
+}
+
+message UploadDocumentRequest {
+  string title = 1;
+  string content = 2; // 추후 PDF 등 바이너리 지원시 bytes data = 3; 등 확장 가능
+}
+
+message UploadDocumentResponse {
+  string document_id = 1;
+  string message = 2;
+}
+
+message SearchRequest {
+  string query = 1;
+  int32 top_k = 2;
+}
+
+message SearchResponse {
+  repeated string document_ids = 1;
+  repeated string titles = 2;
+}
+
+message AskRequest {
+  string question = 1;
+  int32 top_k = 2;
+}
+
+message AskResponse {
+  string answer = 1;
+  repeated string context_documents = 2;
+} 
